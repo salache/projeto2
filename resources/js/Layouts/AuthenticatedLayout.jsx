@@ -36,7 +36,7 @@ export default function AuthenticatedLayout({ header, children }) {
                                     href={route('create-ticket')}
                                     active={route().current('dashboard')}
                                 >
-                                    Criar Envio
+                                    Criar Ticket
                                 </NavLink>
                             </div>
                         </div>
