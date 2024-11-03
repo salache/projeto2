@@ -1,7 +1,8 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
+import React from 'react';
 
-export default function Dashboard( tickets ) {
+export default function Dashboard({ tickets }) {
     return (
         <AuthenticatedLayout
             header={
@@ -29,16 +30,22 @@ export default function Dashboard( tickets ) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {tickets.map((ticket) => (
-                                        <tr key={ticket.id}>
-                                            <td>{ticket.id}</td>
-                                            <td>{ticket.updated_at}</td>
-                                            <td>{ticket.subject}</td>
-                                            <td>{ticket.recipients}</td>
-                                            <td>{ticket.status}</td>
-                                            <td>{ticket.created_at}</td>
+                                {Array.isArray(tickets) && tickets.length > 0 ? (
+                                        tickets.map(ticket => (
+                                            <tr key={ticket.id}>
+                                                <td>{ticket.id}</td>
+                                                <td>{ticket.updated_at}</td>
+                                                <td>{ticket.subject}</td>
+                                                <td>{ticket.recipients}</td>
+                                                <td>{ticket.status}</td>
+                                                <td>{ticket.created_at}</td>
+                                            </tr>
+                                        ))
+                                    ) : (
+                                        <tr>
+                                            <td colSpan="3">Nenhum ticket encontrado.</td>
                                         </tr>
-                                    ))}
+                                    )}
                                 </tbody>
                             </table>
                         </div>

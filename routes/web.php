@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Models\Tickets;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use database\migrations;
 
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -15,7 +17,8 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
+    $tickets = Tickets::all();
+    return Inertia::render('Dashboard', ['tickets' => $tickets]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/create-ticket', function () {
