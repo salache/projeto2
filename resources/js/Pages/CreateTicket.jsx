@@ -12,11 +12,18 @@ export default function CreateTicket() {
     const { data, setData, post, processing, errors } = useForm({
         subject: '',
         recipients: '',
+        uploaded_file: null,
     });
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post('/tickets'); // Envia os dados para a rota '/tickets'
+
+        const formData = new FormData();
+        formData.append('subject', data.subject);
+        formData.append('recipients', data.recipients);
+        formData.append('uploaded_ file', data.uploaded_file);
+
+        post('/tickets', formData); // Envia os dados para a rota '/tickets'
     };
 
     return (
@@ -32,7 +39,7 @@ export default function CreateTicket() {
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                         <div className="p-6 text-gray-900">
-                            <form onSubmit={handleSubmit}>
+                            <form onSubmit={handleSubmit} encType="multipart/form-data" method="POST">
                                 <div>
                                     <InputLabel htmlFor="subject" value="Assunto" />
                                     <TextInput
@@ -55,6 +62,15 @@ export default function CreateTicket() {
                                     />
                                     <InputError message={errors.recipients} className="mt-2" />
                                 </div>
+
+                                <div>
+                                    <InputLabel htmlFor="uploaded_file" value="Escolha um arquivo:" />
+                                    <input
+                                        type="file"
+                                        id="uploaded_file"
+                                    />
+                                </div>
+
                                 <PrimaryButton type="submit" disabled={processing}>
                                     Enviar
                                 </PrimaryButton>

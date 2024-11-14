@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Tickets;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TicketCreatedMail;
 
 class TicketsController extends Controller
 {
@@ -13,6 +15,7 @@ class TicketsController extends Controller
         $request->validate([
             'subject' => 'required|string|max:255',
             'recipients' => 'required|string|max:250',
+            'uploaded_file' => 'nullable|file|max:10240',
         ]);
 
         // Criação do ticket
@@ -22,8 +25,14 @@ class TicketsController extends Controller
             'status' => 'Aberto',
         ]);
 
+        $email = $request->recipients;
+        $mensagem = $request->subject;
+        $file = $request->file('uploaded_file');
+
+        Mail::to($request->recipients)->send(new TicketCreatedMail());
+
         // Redirecionar ou retornar resposta
-        return redirect()->route('dashboard')->with('success', 'Ticket criado com sucesso!');
+        return redirect()->route('dashboard');
     }
     /**
      * Display a listing of the resource.
