@@ -15,13 +15,17 @@ export default function CreateTicket() {
         uploaded_file: null,
     });
 
+    const handleFileChange = (e) => {
+        setData('uploaded_file', e.target.files[0]);
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
 
         const formData = new FormData();
         formData.append('subject', data.subject);
         formData.append('recipients', data.recipients);
-        formData.append('uploaded_ file', data.uploaded_file);
+        formData.append('uploaded_file', data.uploaded_file);
 
         post('/tickets', formData); // Envia os dados para a rota '/tickets'
     };
@@ -64,10 +68,13 @@ export default function CreateTicket() {
                                 </div>
 
                                 <div>
-                                    <InputLabel htmlFor="uploaded_file" value="Escolha um arquivo:" />
+                                    <InputLabel htmlFor="uploaded_file" value="Escolha um arquivo:"/>
                                     <input
                                         type="file"
+                                        onChange={handleFileChange}
                                         id="uploaded_file"
+                                        name="uploaded_file"
+                                        required
                                     />
                                 </div>
 

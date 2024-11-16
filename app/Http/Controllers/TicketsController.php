@@ -15,7 +15,7 @@ class TicketsController extends Controller
         $request->validate([
             'subject' => 'required|string|max:255',
             'recipients' => 'required|string|max:250',
-            'uploaded_file' => 'nullable|file|max:10240',
+            'uploaded_file' => 'required|file|max:10240',
         ]);
 
         // Criação do ticket
@@ -25,11 +25,9 @@ class TicketsController extends Controller
             'status' => 'Aberto',
         ]);
 
-        $email = $request->recipients;
-        $mensagem = $request->subject;
         $file = $request->file('uploaded_file');
 
-        Mail::to($request->recipients)->send(new TicketCreatedMail());
+        Mail::to($request->recipients)->send(new TicketCreatedMail($file));
 
         // Redirecionar ou retornar resposta
         return redirect()->route('dashboard');

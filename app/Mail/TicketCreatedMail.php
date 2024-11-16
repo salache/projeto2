@@ -8,46 +8,43 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Http\UploadedFile;
 
 class TicketCreatedMail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    public $file;
+    
     /**
      * Create a new message instance.
-     */
-    public function __construct()
-    {
-        //
-    }
-
-    /**
-     * Get the message envelope.
-     */
-    public function envelope(): Envelope
-    {
-        return new Envelope(
-            subject: 'Ticket Created Mail',
-        );
-    }
-
-    /**
-     * Get the message content definition.
-     */
-    public function content(): Content
-    {
-        return new Content(
-            view: 'view.name',
-        );
-    }
-
-    /**
-     * Get the attachments for the message.
      *
-     * @return array<int, \Illuminate\Mail\Mailables\Attachment>
+     * @param UploadedFile $file Arquivo que será anexado
      */
-    public function attachments(): array
+
+    public function __construct(UploadedFile $file)
     {
-        return [];
+        $this->file = $file;
+    }
+    
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+    public function build()
+    {
+        if ($this->file) {
+            return $this->view('emails.teste')
+                        ->subject('Novo Ticket Criado')
+                        ->attach($this->file->getRealPath(), [
+                            'as' => $this->file->getClientOriginalName(),
+                            'mime' => $this->file->getMimeType(),
+                        ]);
+        } else {
+            // Caso não haja arquivo, envia apenas o e-mail sem anexo
+            return $this->view('emails.teste')
+                        ->subject('Novo Ticket Criado');
+        }
     }
 }

@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Email de Teste</title>
+    <title>Ticket Criado</title>
 </head>
 <body>
-    <h1>Este é um email de teste enviado via Mailtrap!</h1>
+    <h1>Clique no link para confirmar a leitura do PEI:</h1>
 </body>
 </html>
