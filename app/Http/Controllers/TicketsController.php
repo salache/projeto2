@@ -6,6 +6,7 @@ use App\Models\Tickets;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\TicketCreatedMail;
+use Inertia\Inertia;
 
 class TicketsController extends Controller
 {
@@ -51,10 +52,16 @@ class TicketsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Tickets $tickets)
-    {
-        //
-    }
+    public function show($id)
+{
+    // Encontre o ticket com base no ID
+    $ticket = Tickets::findOrFail($id);
+
+    // Retorne a página com os dados do ticket usando Inertia
+    return Inertia::render('Ticket', [
+        'ticket' => $ticket
+    ]);
+}
 
     /**
      * Show the form for editing the specified resource.

@@ -1,6 +1,7 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import React from 'react';
+import { Link } from '@inertiajs/react';
 
 export default function Dashboard({ tickets }) {
     return (
@@ -30,10 +31,15 @@ export default function Dashboard({ tickets }) {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {Array.isArray(tickets) && tickets.length > 0 ? (
+                                    {Array.isArray(tickets) && tickets.length > 0 ? (
                                         tickets.map(ticket => (
                                             <tr key={ticket.id}>
-                                                <td>{ticket.id}</td>
+                                                <td>
+                                                    {/* Link para a página de detalhes do ticket usando Inertia.js */}
+                                                    <Link href={`/ticket/${ticket.id}`} className="text-blue-500 hover:underline">
+                                                        {ticket.id}
+                                                    </Link>
+                                                </td>
                                                 <td>{ticket.updated_at}</td>
                                                 <td>{ticket.subject}</td>
                                                 <td>{ticket.recipients}</td>
