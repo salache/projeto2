@@ -42,6 +42,17 @@ export default function Ticket(props) {
                     </div>
                 </div>
             </div>
+            <div className="py-12">
+                <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                    <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                    {ticket.confirm === 1 && (
+                                <div className="mt-4 p-4 bg-green-100 text-black rounded-lg">
+                                    <strong>O professor leu e validou esse PEI.</strong>
+                                </div>
+                            )}
+                    </div>
+                </div>
+            </div>
 
         </AuthenticatedLayout>
     );

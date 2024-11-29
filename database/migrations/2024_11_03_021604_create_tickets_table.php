@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string('subject');
             $table->string('status');
             $table->string('recipients');
+            $table->boolean('confirm');
+            $table->string('token');
             $table->timestamps();
         });
     }

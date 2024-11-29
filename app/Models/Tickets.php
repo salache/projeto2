@@ -14,7 +14,9 @@ class Tickets extends Model
     protected $fillable = [
         'subject',     
         'recipients',  
-        'status',      
+        'status',
+        'confirm',
+        'token'
     ];
 
     public $timestamps = true; 

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TicketsController;
+use App\Http\Controllers\LinkController;
 use App\Models\Tickets;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -29,6 +30,7 @@ Route::get('/create-ticket', function () {
 Route::post('/tickets', [TicketsController::class, 'store'])->middleware(['auth', 'verified']);
 
 Route::get('/ticket/{id}', [TicketsController::class, 'show']);
+Route::get('/confirmar/{token}', [LinkController::class, 'confirmar'])->name('confirmar');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

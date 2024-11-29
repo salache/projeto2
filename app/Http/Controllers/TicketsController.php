@@ -20,15 +20,21 @@ class TicketsController extends Controller
         ]);
 
         // Criação do ticket
-        Tickets::create([
+        $ticket = Tickets::create([
             'subject' => $request->subject,
             'recipients' => $request->recipients,
             'status' => 'Aberto',
+            'confirm' => false,
+            'token' => 'null',
         ]);
+
+        $ticketId = $ticket->id;
 
         $file = $request->file('uploaded_file');
 
-        Mail::to($request->recipients)->send(new TicketCreatedMail($file));
+        $link = (new LinkController())->gerarLink($ticketId);
+
+        Mail::to($request->recipients)->send(new TicketCreatedMail($file, $link));
 
         // Redirecionar ou retornar resposta
         return redirect()->route('dashboard');

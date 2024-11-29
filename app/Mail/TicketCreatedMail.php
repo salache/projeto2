@@ -15,16 +15,18 @@ class TicketCreatedMail extends Mailable
     use Queueable, SerializesModels;
 
     public $file;
+    public $link;
     
     /**
      * Create a new message instance.
      *
-     * @param UploadedFile $file Arquivo que será anexado
+     * @param UploadedFile $file
      */
 
-    public function __construct(UploadedFile $file)
+    public function __construct(UploadedFile $file, $link = null)
     {
         $this->file = $file;
+        $this->link = $link;
     }
     
     /**
@@ -34,17 +36,19 @@ class TicketCreatedMail extends Mailable
      */
     public function build()
     {
+        $email = $this->view('emails.teste')
+                      ->subject('Novo Ticket Criado')
+                      ->with([
+                          'link' => $this->link,
+                      ]);
+
         if ($this->file) {
-            return $this->view('emails.teste')
-                        ->subject('Novo Ticket Criado')
-                        ->attach($this->file->getRealPath(), [
-                            'as' => $this->file->getClientOriginalName(),
-                            'mime' => $this->file->getMimeType(),
-                        ]);
-        } else {
-            // Caso não haja arquivo, envia apenas o e-mail sem anexo
-            return $this->view('emails.teste')
-                        ->subject('Novo Ticket Criado');
+            $email->attach($this->file->getRealPath(), [
+                'as' => $this->file->getClientOriginalName(),
+                'mime' => $this->file->getMimeType(),
+            ]);
         }
+
+        return $email;
     }
 }
