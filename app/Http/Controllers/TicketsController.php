@@ -15,6 +15,7 @@ class TicketsController extends Controller
         // Validação dos dados
         $request->validate([
             'subject' => 'required|string|max:255',
+            'RA' => 'required|string|max:10',
             'recipients' => 'required|string|max:250',
             'uploaded_file' => 'required|file|max:10240',
         ]);
@@ -22,7 +23,9 @@ class TicketsController extends Controller
         // Criação do ticket
         $ticket = Tickets::create([
             'subject' => $request->subject,
+            'RA' => $request->RA,
             'recipients' => $request->recipients,
+            'professor' => '',
             'status' => 'Aberto',
             'confirm' => false,
             'token' => 'null',
@@ -72,18 +75,33 @@ class TicketsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Tickets $tickets)
-    {
-        //
-    }
+    public function edit($id)
+{
+    // Buscar o ticket pelo ID
+    $ticket = Tickets::findOrFail($id);
+
+    // Passar os dados para a página de edição via Inertia
+    return Inertia::render('ConfirmTicket', [
+        'ticket' => $ticket,
+    ]);
+}
+
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Tickets $tickets)
-    {
-        //
-    }
+    public function update(Request $request, $id)
+{
+    $ticket = Tickets::findOrFail($id);
+    $ticket->professor = $request->professor;
+    $ticket->confirm = $request->confirm;
+    $ticket->status = 'Validado';
+
+    $ticket->save();
+
+    return redirect()->route('dashboard')->with('message', 'Ticket confirmado com sucesso!');
+}
+
 
     /**
      * Remove the specified resource from storage.
@@ -92,4 +110,15 @@ class TicketsController extends Controller
     {
         //
     }
+
+    public function delete($id)
+{
+    $ticket = Tickets::find($id);
+    if ($ticket) {
+        $ticket->delete();
+    }
+
+    return redirect()->route('dashboard')->with('message', 'Ticket excluído com sucesso!');
+}
+
 }

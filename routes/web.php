@@ -30,7 +30,12 @@ Route::get('/create-ticket', function () {
 Route::post('/tickets', [TicketsController::class, 'store'])->middleware(['auth', 'verified']);
 
 Route::get('/ticket/{id}', [TicketsController::class, 'show']);
+Route::get('/ticket/{id}/delete', [TicketsController::class, 'delete'])->name('ticket.delete');
+Route::get('/ticket/{id}/confirm', [TicketsController::class, 'edit'])->name('edit');
 Route::get('/confirmar/{token}', [LinkController::class, 'confirmar'])->name('confirmar');
+
+Route::put('/tickets/{id}', [TicketsController::class, 'update'])->middleware(['auth', 'verified']);
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

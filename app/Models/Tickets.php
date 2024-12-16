@@ -13,9 +13,11 @@ class Tickets extends Model
 
     protected $fillable = [
         'subject',     
+        'RA',
         'recipients',  
         'status',
         'confirm',
+        'professor',
         'token'
     ];
 

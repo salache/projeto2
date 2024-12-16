@@ -11,6 +11,7 @@ import React from 'react';
 export default function CreateTicket() {
     const { data, setData, post, processing, errors } = useForm({
         subject: '',
+        RA:'',
         recipients: '',
         uploaded_file: null,
     });
@@ -24,6 +25,7 @@ export default function CreateTicket() {
 
         const formData = new FormData();
         formData.append('subject', data.subject);
+        formData.append('RA', data.RA);
         formData.append('recipients', data.recipients);
         formData.append('uploaded_file', data.uploaded_file);
 
@@ -45,12 +47,23 @@ export default function CreateTicket() {
                         <div className="p-6 text-gray-900">
                             <form onSubmit={handleSubmit} encType="multipart/form-data" method="POST">
                                 <div>
-                                    <InputLabel htmlFor="subject" value="Assunto" />
+                                    <InputLabel htmlFor="subject" value="Aluno" />
                                     <TextInput
                                         type='text'
                                         id='subject'
                                         value={data.subject}
                                         onChange={(e) => setData('subject', e.target.value)}
+                                        required
+                                    />
+                                    <InputError message={errors.subject} className="mt-2" />
+                                </div>
+                                <div>
+                                    <InputLabel htmlFor="RA" value="RA" />
+                                    <TextInput
+                                        type='text'
+                                        id='RA'
+                                        value={data.RA}
+                                        onChange={(e) => setData('RA', e.target.value)}
                                         required
                                     />
                                     <InputError message={errors.subject} className="mt-2" />

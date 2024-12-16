@@ -1,6 +1,7 @@
 import { usePage } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
+import dayjs from 'dayjs';
 
 export default function Ticket(props) {
 
@@ -33,10 +34,10 @@ export default function Ticket(props) {
                                 <strong>Destinatários:</strong> {ticket.recipients}
                             </div>
                             <div className="mb-4">
-                                <strong>Criado em:</strong> {ticket.created_at}
+                                <strong>Criado em:</strong> {dayjs(ticket.created_at).format('DD/MM/YYYY HH:mm')}
                             </div>
                             <div className="mb-4">
-                                <strong>Última atualização:</strong> {ticket.updated_at}
+                                <strong>Última atualização:</strong> {dayjs(ticket.updated_at).format('DD/MM/YYYY HH:mm')}
                             </div>
                         </div>
                     </div>
