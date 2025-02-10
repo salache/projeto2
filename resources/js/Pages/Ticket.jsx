@@ -43,14 +43,35 @@ export default function Ticket(props) {
                     </div>
                 </div>
             </div>
+            {ticket.file_path && (
+                <div className="py-12">
+                    <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
+                        <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
+                            <div className="p-4 bg-white rounded-lg shadow-md">
+                                <div className="mb-4">
+                                    <strong>Arquivo Anexado: </strong>
+                                    <a
+                                        href={`/storage/${ticket.file_path}`}
+                                        target="_blank"
+                                        className="text-blue-600 hover:text-blue-800"
+                                    >
+                                        Visualizar ou Baixar o Arquivo
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg">
                     {ticket.confirm === 1 && (
-                                <div className="mt-4 p-4 bg-green-100 text-black rounded-lg">
-                                    <strong>O professor leu e validou esse PEI.</strong>
-                                </div>
-                            )}
+                        <div className="mt-4 p-4 bg-green-100 text-black rounded-lg">
+                            <strong>O professor leu e validou esse PEI.</strong>
+                        </div>
+                    )}
                     </div>
                 </div>
             </div>

@@ -12,7 +12,6 @@ class TicketsController extends Controller
 {
     public function store(Request $request)
     {
-        // Validação dos dados
         $request->validate([
             'subject' => 'required|string|max:255',
             'RA' => 'required|string|max:10',
@@ -20,7 +19,6 @@ class TicketsController extends Controller
             'uploaded_file' => 'required|file|max:10240',
         ]);
 
-        // Criação do ticket
         $ticket = Tickets::create([
             'subject' => $request->subject,
             'RA' => $request->RA,
@@ -35,11 +33,13 @@ class TicketsController extends Controller
 
         $file = $request->file('uploaded_file');
 
+        $path = $file->store('uploads/tickets', 'public');
+        $ticket->file_path = $path;
+        $ticket->save();
         $link = (new LinkController())->gerarLink($ticketId);
 
-        Mail::to($request->recipients)->send(new TicketCreatedMail($file, $link));
+        //Mail::to($request->recipients)->send(new TicketCreatedMail($file, $link));
 
-        // Redirecionar ou retornar resposta
         return redirect()->route('dashboard');
     }
     /**
@@ -63,10 +63,8 @@ class TicketsController extends Controller
      */
     public function show($id)
 {
-    // Encontre o ticket com base no ID
     $ticket = Tickets::findOrFail($id);
 
-    // Retorne a página com os dados do ticket usando Inertia
     return Inertia::render('Ticket', [
         'ticket' => $ticket
     ]);
@@ -77,10 +75,8 @@ class TicketsController extends Controller
      */
     public function edit($id)
 {
-    // Buscar o ticket pelo ID
     $ticket = Tickets::findOrFail($id);
 
-    // Passar os dados para a página de edição via Inertia
     return Inertia::render('ConfirmTicket', [
         'ticket' => $ticket,
     ]);
